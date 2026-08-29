@@ -43,6 +43,22 @@ def get_candidate_feature_sets():
         "top_6": get_top_features(6),
         "top_4": get_top_features(4)
     }
+
+def get_primary_feature_set():
+    """
+    Return the primary candidate feature set.
+
+    Top 8 ranked numerical features plus Sex_m were selected
+    based on initial Random Forest subset validation.
+    """
+
+    features = get_top_features(8)
+
+    if "Sex_m" not in features:
+        features.append("Sex_m")
+
+    return features
+
 def select_features(X_train, X_test, features):
     """
     Select the specified features from training and test datasets.
@@ -96,3 +112,5 @@ if __name__ == "__main__":
     print("X_test shape:", X_test_selected.shape)
     print("\nSelected features:")
     print(X_train_selected.columns.tolist())
+    print("Primary Feature Set:")
+    print(get_primary_feature_set())
