@@ -1,0 +1,7 @@
+{
+    "n_qubits": 4,
+    "n_layers": 3,
+    "threshold": 0.8699999999999996,
+    "best_epoch": 12,
+    "best_validation_f1": 0.5263157894736842
+}
