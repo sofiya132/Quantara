@@ -1,0 +1,2 @@
+Qubits,Features,Layers,Noise Model,Ideal Average Output,Noisy Average Output,Absolute Difference,Ideal Simulation Time,Noisy Simulation Time
+4,4,3,Depolarizing 0.01,0.22035655521913106,0.21224078614790076,0.008115769071230294,0.05544949998147786,0.16716499999165535
