@@ -1,0 +1,21 @@
+{
+    "model": "Optimized 4-Qubit VQC",
+    "n_qubits": 4,
+    "n_layers": 5,
+    "pca_components": 4,
+    "variance_retained": 0.5977106579587143,
+    "dual_angle_encoding": true,
+    "ring_entanglement": true,
+    "multi_qubit_readout": true,
+    "learning_rate": 0.02,
+    "epochs": 50,
+    "best_epoch": 32,
+    "threshold": 0.5399999999999998,
+    "validation_f1": 0.6363636363636364,
+    "test_accuracy": 0.8373983739837398,
+    "test_precision": 0.3684210526315789,
+    "test_sensitivity": 0.4666666666666667,
+    "test_specificity": 0.8888888888888888,
+    "test_f1": 0.4117647058823529,
+    "test_roc_auc": 0.8141975308641975
+}

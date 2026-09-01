@@ -1,0 +1,50 @@
+{
+    "Age": {
+        "description": "Patient age",
+        "category": "Demographic"
+    },
+    "ALB": {
+        "description": "Albumin level",
+        "category": "Liver function"
+    },
+    "ALP": {
+        "description": "Alkaline phosphatase",
+        "category": "Liver function"
+    },
+    "ALT": {
+        "description": "Alanine aminotransferase",
+        "category": "Liver function"
+    },
+    "AST": {
+        "description": "Aspartate aminotransferase",
+        "category": "Liver function"
+    },
+    "BIL": {
+        "description": "Bilirubin level",
+        "category": "Liver function"
+    },
+    "CHE": {
+        "description": "Cholinesterase level",
+        "category": "Liver function"
+    },
+    "CHOL": {
+        "description": "Cholesterol level",
+        "category": "Metabolic"
+    },
+    "CREA": {
+        "description": "Creatinine level",
+        "category": "Kidney function"
+    },
+    "GGT": {
+        "description": "Gamma-glutamyl transferase",
+        "category": "Liver function"
+    },
+    "PROT": {
+        "description": "Total protein level",
+        "category": "Liver function"
+    },
+    "Sex_m": {
+        "description": "Sex encoded as male=1",
+        "category": "Demographic"
+    }
+}
