@@ -11,7 +11,10 @@ from qml_preprocessing import X_train_4
 from quantum_circuit import quantum_circuit
 
 
+# ==========================================
 # Take the first real patient after PCA
+# ==========================================
+
 patient = X_train_4[0]
 
 print("Patient after PCA:")
@@ -21,17 +24,44 @@ print("\nNumber of features:")
 print(len(patient))
 
 
-# Initial trainable weights
-weights = np.array([
-    0.1,
-    0.2,
-    0.3,
-    0.4
-], requires_grad=True)
+# ==========================================
+# Load trained quantum weights
+# ==========================================
+
+weights_path = (
+    Path(__file__).resolve().parent
+    / "saved"
+    / "vqc_weights.npy"
+)
+
+weights = np.load(weights_path)
+
+print("\nLoaded quantum weights:")
+print("Weight shape:", weights.shape)
 
 
-# Run the real patient through the quantum circuit
-output = quantum_circuit(patient, weights)
+# ==========================================
+# Verify expected weight shape
+# ==========================================
+
+expected_shape = (3, 4, 2)
+
+if weights.shape != expected_shape:
+    raise ValueError(
+        f"Unexpected weight shape: {weights.shape}. "
+        f"Expected: {expected_shape}"
+    )
+
+
+# ==========================================
+# Run the real patient through quantum circuit
+# ==========================================
+
+output = quantum_circuit(
+    patient,
+    weights
+)
+
 
 print("\nQuantum circuit output:")
 print(output)
