@@ -4,18 +4,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import MinMaxScaler
 
-
-# --------------------------------------------------
 # Paths
-# --------------------------------------------------
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
-
-# --------------------------------------------------
 # Load Member 1's existing data
-# --------------------------------------------------
 
 X_train_full = pd.read_csv(DATA_DIR / "X_train.csv")
 X_test = pd.read_csv(DATA_DIR / "X_test.csv")
@@ -28,10 +22,7 @@ y_test = pd.read_csv(
     DATA_DIR / "y_test_binary.csv"
 ).iloc[:, 0].to_numpy()
 
-
-# --------------------------------------------------
 # Exact feature order
-# --------------------------------------------------
 
 FEATURE_ORDER = [
     "Age",
@@ -64,12 +55,9 @@ X_train, X_val, y_train, y_val = train_test_split(
     stratify=y_train_full
 )
 
-
-# --------------------------------------------------
 # PCA
 # IMPORTANT:
 # Fit PCA ONLY on training data
-# --------------------------------------------------
 
 pca = PCA(n_components=4)
 
@@ -77,12 +65,9 @@ X_train_pca = pca.fit_transform(X_train)
 X_val_pca = pca.transform(X_val)
 X_test_pca = pca.transform(X_test)
 
-
-# --------------------------------------------------
 # Scale PCA components to [-pi, pi]
 # IMPORTANT:
 # Fit scaler ONLY on training PCA data
-# --------------------------------------------------
 
 angle_scaler = MinMaxScaler(
     feature_range=(-3.141592653589793, 3.141592653589793)
@@ -92,10 +77,7 @@ X_train_4 = angle_scaler.fit_transform(X_train_pca)
 X_val_4 = angle_scaler.transform(X_val_pca)
 X_test_4 = angle_scaler.transform(X_test_pca)
 
-
-# --------------------------------------------------
 # Information / verification
-# --------------------------------------------------
 
 print("===== DATA SPLIT =====")
 
