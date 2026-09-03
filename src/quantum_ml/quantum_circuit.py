@@ -19,9 +19,7 @@ dev = qml.device(
 @qml.qnode(dev)
 def quantum_circuit(features, weights):
 
-    # ------------------------------------------------
     # STEP 1: Encode patient features
-    # ------------------------------------------------
 
     for i in range(N_QUBITS):
         qml.RY(
@@ -29,10 +27,8 @@ def quantum_circuit(features, weights):
             wires=i
         )
 
-    # ------------------------------------------------
     # STEP 2: Trainable variational layers
-    # ------------------------------------------------
-
+    
     for layer in range(N_LAYERS):
 
         for i in range(N_QUBITS):
@@ -49,9 +45,7 @@ def quantum_circuit(features, weights):
                 wires=i
             )
 
-        # ------------------------------------------------
         # STEP 3: Entangle neighbouring qubits
-        # ------------------------------------------------
 
         for i in range(N_QUBITS - 1):
 
@@ -59,9 +53,7 @@ def quantum_circuit(features, weights):
                 wires=[i, i + 1]
             )
 
-    # ------------------------------------------------
     # STEP 4: Measure
-    # ------------------------------------------------
 
     return qml.expval(
         qml.PauliZ(0)
