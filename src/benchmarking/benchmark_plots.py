@@ -2,11 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-
-# ==========================================
 # 1. Load benchmark results
-# ==========================================
-
 results_path = Path(
     "results/hcv_classical_benchmark.csv"
 )
@@ -16,22 +12,14 @@ df = pd.read_csv(results_path)
 print("\nLoaded benchmark results:")
 print(df)
 
-
-# ==========================================
 # 2. Create plots directory
-# ==========================================
-
 plots_dir = Path("results/plots")
 plots_dir.mkdir(
     parents=True,
     exist_ok=True
 )
 
-
-# ==========================================
 # 3. Function to create and save plots
-# ==========================================
-
 def create_plot(
     column,
     title,
@@ -74,11 +62,7 @@ def create_plot(
 
     print(f"Saved: {output_path}")
 
-
-# ==========================================
 # 4. Generate all plots
-# ==========================================
-
 create_plot(
     column="Accuracy",
     title="HCV Model Accuracy Comparison",
@@ -139,11 +123,6 @@ create_plot(
     ylabel="Training Time (seconds)",
     filename="training_time_comparison.png"
 )
-
-
-# ==========================================
-# 5. Finished
-# ==========================================
 
 print("\n========================================")
 print("ALL BENCHMARK PLOTS GENERATED")
