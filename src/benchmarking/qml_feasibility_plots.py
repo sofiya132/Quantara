@@ -2,11 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-
-# ============================================================
 # PATHS
-# ============================================================
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 RESULTS_DIR = PROJECT_ROOT / "results"
@@ -17,11 +13,7 @@ PLOTS_DIR.mkdir(
     exist_ok=True
 )
 
-
-# ============================================================
 # LOAD RESULTS
-# ============================================================
-
 feature_df = pd.read_csv(
     RESULTS_DIR / "qml_feature_qubit_experiment.csv"
 )
@@ -34,11 +26,7 @@ noise_df = pd.read_csv(
     RESULTS_DIR / "qml_noise_experiment.csv"
 )
 
-
-# ============================================================
 # 1. FEATURES vs GATES
-# ============================================================
-
 plt.figure(figsize=(8, 5))
 
 plt.plot(
@@ -63,11 +51,7 @@ plt.close()
 
 print("Saved:", path)
 
-
-# ============================================================
 # 2. FEATURES vs SIMULATION TIME
-# ============================================================
-
 plt.figure(figsize=(8, 5))
 
 plt.plot(
@@ -92,11 +76,7 @@ plt.close()
 
 print("Saved:", path)
 
-
-# ============================================================
 # 3. CIRCUIT DEPTH vs GATES
-# ============================================================
-
 plt.figure(figsize=(8, 5))
 
 plt.plot(
@@ -121,11 +101,7 @@ plt.close()
 
 print("Saved:", path)
 
-
-# ============================================================
 # 4. CIRCUIT DEPTH vs SIMULATION TIME
-# ============================================================
-
 plt.figure(figsize=(8, 5))
 
 plt.plot(
@@ -150,11 +126,7 @@ plt.close()
 
 print("Saved:", path)
 
-
-# ============================================================
 # 5. NOISE COMPARISON
-# ============================================================
-
 ideal = noise_df["Ideal Average Output"].iloc[0]
 
 noisy = noise_df["Noisy Average Output"].iloc[0]
@@ -179,11 +151,7 @@ plt.close()
 
 print("Saved:", path)
 
-
-# ============================================================
 # 6. NOISE DIFFERENCE
-# ============================================================
-
 difference = noise_df["Absolute Difference"].iloc[0]
 
 plt.figure(figsize=(7, 5))
@@ -206,11 +174,7 @@ plt.close()
 
 print("Saved:", path)
 
-
-# ============================================================
 # COMPLETED
-# ============================================================
-
 print("\n" + "=" * 60)
 print("QML FEASIBILITY PLOTS GENERATED")
 print("=" * 60)
