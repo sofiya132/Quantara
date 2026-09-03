@@ -1,29 +1,18 @@
 import numpy as np
 
+""" Purpose:
+   Compare model predictions and select the model that is
+   most appropriate for the current patient.
 
-# ============================================================
-# QUANTARA - MEMBER 4
-# ADAPTIVE MODEL ROUTER
-# ============================================================
-#
-# Purpose:
-#   Compare model predictions and select the model that is
-#   most appropriate for the current patient.
-#
-# The router considers:
-#   1. Patient-specific confidence
-#   2. Historical benchmark performance
-#   3. Model probability
-#
-# IMPORTANT:
-# This is an adaptive routing mechanism, not a medical diagnosis.
-# ============================================================
+ The router considers:
+   1. Patient-specific confidence
+   2. Historical benchmark performance
+   3. Model probability
+   
+ IMPORTANT:
+ This is an adaptive routing mechanism, not a medical diagnosis."""
 
-
-# ============================================================
 # HISTORICAL MODEL PERFORMANCE
-# ============================================================
-
 MODEL_PERFORMANCE = {
 
     "Logistic Regression": 0.8706,
@@ -35,30 +24,20 @@ MODEL_PERFORMANCE = {
     "VQC": 0.6045
 }
 
-
-# ============================================================
 # ROUTER WEIGHTS
-# ============================================================
-
 # Current patient confidence is more important than historical
 # performance because routing is patient-specific.
 
 CONFIDENCE_WEIGHT = 0.60
 PERFORMANCE_WEIGHT = 0.40
 
-
-# ============================================================
 # CONFIDENCE
-# ============================================================
-
 def calculate_confidence(probability):
-    """
-    Confidence is the distance from an uncertain 50% prediction.
 
+"""Confidence is the distance from an uncertain 50% prediction.
     50%  -> 0% confidence
     75%  -> 50% confidence
-    100% -> 100% confidence
-    """
+    100% -> 100% confidence"""
 
     probability = float(probability)
 
@@ -68,11 +47,7 @@ def calculate_confidence(probability):
         np.clip(confidence, 0.0, 1.0)
     )
 
-
-# ============================================================
 # RISK LEVEL
-# ============================================================
-
 def get_risk_level(probability):
 
     probability = float(probability)
@@ -85,12 +60,8 @@ def get_risk_level(probability):
 
     else:
         return "LOW"
-
-
-# ============================================================
+        
 # MODEL ROUTER SCORE
-# ============================================================
-
 def calculate_router_score(
     probability,
     model_name
@@ -115,11 +86,7 @@ def calculate_router_score(
 
     return float(score)
 
-
-# ============================================================
 # ANALYZE ONE MODEL
-# ============================================================
-
 def analyze_model(
     model_name,
     probability
@@ -173,11 +140,7 @@ def analyze_model(
             )
     }
 
-
-# ============================================================
 # ROUTE MODELS
-# ============================================================
-
 def route_models(
     model_probabilities
 ):
@@ -218,10 +181,7 @@ def route_models(
 
     analyses = []
 
-    # --------------------------------------------------------
     # Analyze every model
-    # --------------------------------------------------------
-
     for model_name, probability in (
         model_probabilities.items()
     ):
@@ -235,10 +195,7 @@ def route_models(
             result
         )
 
-    # --------------------------------------------------------
     # Select best model
-    # --------------------------------------------------------
-
     analyses.sort(
         key=lambda x:
         x["router_score"],
@@ -247,10 +204,7 @@ def route_models(
 
     selected = analyses[0]
 
-    # --------------------------------------------------------
     # Second-best model
-    # --------------------------------------------------------
-
     if len(analyses) > 1:
 
         second_best = analyses[1]
@@ -301,11 +255,7 @@ def route_models(
             analyses
     }
 
-
-# ============================================================
 # WHY THIS MODEL?
-# ============================================================
-
 def generate_model_reason(
     routing_result
 ):
@@ -369,11 +319,7 @@ def generate_model_reason(
 
     return reason
 
-
-# ============================================================
 # DISPLAY ROUTER RESULT
-# ============================================================
-
 def print_router_result(
     routing_result
 ):
@@ -381,7 +327,7 @@ def print_router_result(
     print("\n" + "=" * 70)
 
     print(
-        "QUANTARA - ADAPTIVE MODEL ROUTER"
+        "ADAPTIVE MODEL ROUTER"
     )
 
     print("=" * 70)
@@ -463,15 +409,11 @@ def print_router_result(
         )
     )
 
-
-# ============================================================
 # TEST
-# ============================================================
-
 if __name__ == "__main__":
 
     print(
-        "QUANTARA - MEMBER 4 MODEL ROUTER TEST"
+        "MODEL ROUTER TEST"
     )
 
     probabilities = {
