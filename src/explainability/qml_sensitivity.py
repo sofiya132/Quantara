@@ -4,27 +4,20 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+""" QML FEATURE SENSITIVITY ANALYSIS
+ IMPORTANT:
+ This is NOT SHAP for the quantum model.
 
-# ============================================================
-# QUANTARA - MEMBER 4
-# QML FEATURE SENSITIVITY ANALYSIS
-# ============================================================
-#
-# IMPORTANT:
-# This is NOT SHAP for the quantum model.
-#
-# We use perturbation/sensitivity analysis:
-#
-#   Original input
-#        ↓
-#   Change one feature
-#        ↓
-#   Run VQC again
-#        ↓
-#   Measure probability change
-#
-# Larger probability change = higher sensitivity.
-# ============================================================
+ We use perturbation/sensitivity analysis:
+   Original input
+        ↓
+   Change one feature
+        ↓
+   Run VQC again
+        ↓
+   Measure probability change
+
+ Larger probability change = higher sensitivity."""
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -63,11 +56,7 @@ FEATURE_ORDER = [
     "Sex_m"
 ]
 
-
-# ============================================================
 # VQC MODEL
-# ============================================================
-
 class SimpleVQC:
 
     def __init__(self, weights):
@@ -113,11 +102,7 @@ class SimpleVQC:
 
         return float(probability)
 
-
-# ============================================================
 # LOAD VQC
-# ============================================================
-
 def load_vqc():
 
     weights = np.load(
@@ -136,11 +121,7 @@ def load_vqc():
 
     return model, config
 
-
-# ============================================================
 # CREATE PCA + ANGLE TRANSFORMATION
-# ============================================================
-
 def create_quantum_preprocessing():
 
     from sklearn.decomposition import PCA
@@ -174,11 +155,7 @@ def create_quantum_preprocessing():
 
     return pca, scaler
 
-
-# ============================================================
 # CONVERT PATIENT → QUANTUM ANGLES
-# ============================================================
-
 def patient_to_angles(
     patient,
     pca,
@@ -199,11 +176,7 @@ def patient_to_angles(
 
     return angles[0]
 
-
-# ============================================================
 # QML SENSITIVITY
-# ============================================================
-
 def calculate_qml_sensitivity(
     model,
     angles,
@@ -287,11 +260,7 @@ def calculate_qml_sensitivity(
         normalized
     )
 
-
-# ============================================================
 # MAIN ANALYSIS
-# ============================================================
-
 def analyze_patient(patient):
 
     print(
@@ -340,10 +309,7 @@ def analyze_patient(patient):
         )
     )
 
-    # ========================================================
     # PCA COMPONENT NAMES
-    # ========================================================
-
     pca_features = [
         "PC1",
         "PC2",
@@ -378,11 +344,7 @@ def analyze_patient(patient):
         config
     )
 
-
-# ============================================================
 # TEST
-# ============================================================
-
 if __name__ == "__main__":
 
     print("=" * 70)
@@ -392,11 +354,8 @@ if __name__ == "__main__":
     )
 
     print("=" * 70)
-
-    # --------------------------------------------------------
+    
     # Example patient
-    # --------------------------------------------------------
-
     patient = pd.DataFrame([{
 
         "Age": 45,
