@@ -27,11 +27,7 @@ from qml_preprocessing import (
     y_test,
 )
 
-
-# ============================================================
 # CONFIGURATION
-# ============================================================
-
 N_QUBITS = 4
 N_LAYERS = 5
 EPOCHS = 50
@@ -47,11 +43,7 @@ THRESHOLDS = standard_np.arange(
     0.01
 )
 
-
-# ============================================================
 # DATA
-# ============================================================
-
 print()
 print("=" * 75)
 print("QUANTARA - OPTIMIZED 4-QUBIT VQC")
@@ -106,11 +98,7 @@ print(
     X_test_np.shape
 )
 
-
-# ============================================================
 # PCA
-# ============================================================
-
 pca = PCA(
     n_components=N_QUBITS
 )
@@ -166,13 +154,8 @@ print(
     f"{variance_retained * 100:.2f}%"
 )
 
-
-# ============================================================
 # QUANTUM ANGLE ENCODING
-# ============================================================
-
 # Scale each PCA feature independently to [-pi, pi]
-
 train_min = X_train_pca.min(axis=0)
 train_max = X_train_pca.max(axis=0)
 
@@ -233,11 +216,7 @@ print(
     X_train_angles[0]
 )
 
-
-# ============================================================
 # CLASS WEIGHTS
-# ============================================================
-
 class_0_count = standard_np.sum(
     y_train_np == 0
 )
@@ -275,32 +254,21 @@ print(
     weight_1
 )
 
-
-# ============================================================
 # QUANTUM DEVICE
-# ============================================================
-
 dev = qml.device(
     "default.qubit",
     wires=N_QUBITS
 )
 
-
-# ============================================================
 # OPTIMIZED QUANTUM CIRCUIT
-# ============================================================
-
 @qml.qnode(dev)
 def optimized_circuit(
     features,
     weights
 ):
-
-    # --------------------------------------------------------
+    
     # FEATURE ENCODING
-    # --------------------------------------------------------
-
-    for i in range(N_QUBITS):
+     for i in range(N_QUBITS):
 
         qml.RY(
             features[i],
@@ -312,11 +280,7 @@ def optimized_circuit(
             wires=i
         )
 
-
-    # --------------------------------------------------------
     # VARIATIONAL LAYERS
-    # --------------------------------------------------------
-
     for layer in range(N_LAYERS):
 
         for i in range(N_QUBITS):
@@ -330,11 +294,8 @@ def optimized_circuit(
                 weights[layer, i, 1],
                 wires=i
             )
-
-        # ----------------------------------------------------
+            
         # Ring entanglement
-        # ----------------------------------------------------
-
         for i in range(
             N_QUBITS - 1
         ):
@@ -354,11 +315,7 @@ def optimized_circuit(
             ]
         )
 
-
-    # --------------------------------------------------------
     # MULTI-QUBIT READOUT
-    # --------------------------------------------------------
-
     return (
         qml.expval(qml.PauliZ(0)),
         qml.expval(qml.PauliZ(1)),
@@ -366,11 +323,7 @@ def optimized_circuit(
         qml.expval(qml.PauliZ(3)),
     )
 
-
-# ============================================================
 # QUANTUM OUTPUT
-# ============================================================
-
 def quantum_probability(
     features,
     weights
@@ -396,11 +349,7 @@ def quantum_probability(
 
     return probability
 
-
-# ============================================================
 # BATCH PREDICTIONS
-# ============================================================
-
 def get_probabilities(
     X,
     weights
@@ -421,11 +370,7 @@ def get_probabilities(
         probabilities
     )
 
-
-# ============================================================
 # WEIGHTED BINARY CROSS ENTROPY
-# ============================================================
-
 def weighted_loss(
     predictions,
     targets
@@ -465,11 +410,7 @@ def weighted_loss(
         loss
     )
 
-
-# ============================================================
 # TRAINING COST
-# ============================================================
-
 def training_cost(
     weights
 ):
@@ -484,11 +425,7 @@ def training_cost(
         y_train_np
     )
 
-
-# ============================================================
 # THRESHOLD OPTIMIZATION
-# ============================================================
-
 def find_best_threshold(
     probabilities,
     targets
@@ -537,11 +474,7 @@ def find_best_threshold(
         best_f1
     )
 
-
-# ============================================================
 # INITIALIZE PARAMETERS
-# ============================================================
-
 np.random.seed(
     RANDOM_SEED
 )
@@ -587,20 +520,12 @@ print(
     weights.shape
 )
 
-
-# ============================================================
 # OPTIMIZER
-# ============================================================
-
 optimizer = qml.AdamOptimizer(
     stepsize=LEARNING_RATE
 )
 
-
-# ============================================================
 # TRAINING
-# ============================================================
-
 best_val_f1 = -1.0
 best_val_loss = float("inf")
 best_threshold = 0.50
@@ -623,11 +548,7 @@ for epoch in range(EPOCHS):
         )
     )
 
-
-    # --------------------------------------------------------
     # Validation probabilities
-    # --------------------------------------------------------
-
     val_probabilities = (
         get_probabilities(
             X_val_angles,
@@ -640,11 +561,7 @@ for epoch in range(EPOCHS):
         y_val_np
     )
 
-
-    # --------------------------------------------------------
     # Validation threshold
-    # --------------------------------------------------------
-
     threshold, val_f1 = (
         find_best_threshold(
             val_probabilities,
@@ -665,11 +582,7 @@ for epoch in range(EPOCHS):
         f"{threshold:.2f}"
     )
 
-
-    # --------------------------------------------------------
     # Save best validation model
-    # --------------------------------------------------------
-
     if val_f1 > best_val_f1:
 
         best_val_f1 = val_f1
@@ -691,11 +604,7 @@ for epoch in range(EPOCHS):
             requires_grad=False
         )
 
-
-# ============================================================
 # TRAINING SUMMARY
-# ============================================================
-
 print("\n")
 print("=" * 75)
 print("OPTIMIZED VQC TRAINING COMPLETE")
@@ -721,11 +630,7 @@ print(
     best_threshold
 )
 
-
-# ============================================================
 # FINAL TEST EVALUATION
-# ============================================================
-
 print("\n")
 print("=" * 75)
 print("FINAL TEST EVALUATION")
@@ -760,11 +665,7 @@ test_predictions = (
     >= best_threshold
 ).astype(int)
 
-
-# ============================================================
 # METRICS
-# ============================================================
-
 accuracy = accuracy_score(
     y_test_np,
     test_predictions
@@ -793,11 +694,7 @@ roc_auc = roc_auc_score(
     test_probabilities_np
 )
 
-
-# ============================================================
 # CONFUSION MATRIX
-# ============================================================
-
 cm = confusion_matrix(
     y_test_np,
     test_predictions,
@@ -813,11 +710,7 @@ specificity = (
     else 0.0
 )
 
-
-# ============================================================
 # DISPLAY RESULTS
-# ============================================================
-
 print(
     f"\nAccuracy: "
     f"{accuracy * 100:.2f}%"
@@ -876,11 +769,7 @@ print(
     tp
 )
 
-
-# ============================================================
 # SAVE MODEL
-# ============================================================
-
 MODEL_DIR = (
     Path(__file__).resolve().parent
     / "saved"
