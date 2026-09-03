@@ -3,26 +3,16 @@ from flask_cors import CORS
 import sys
 from pathlib import Path
 
-# --------------------------------------------------
 # PROJECT PATH
-# --------------------------------------------------
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 sys.path.append(str(PROJECT_ROOT / "src"))
 
-# --------------------------------------------------
 # FLASK APP
-# --------------------------------------------------
-
 app = Flask(__name__)
 CORS(app)
 
-
-# --------------------------------------------------
 # HEALTH CHECK
-# --------------------------------------------------
-
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({
@@ -30,11 +20,7 @@ def home():
         "message": "Quantara Backend API is running"
     })
 
-
-# --------------------------------------------------
 # PREDICTION API
-# --------------------------------------------------
-
 @app.route("/predict", methods=["POST"])
 def predict():
 
@@ -71,21 +57,15 @@ def predict():
                 "missing": missing
             }), 400
 
-        # --------------------------------------------------
         # Convert input to numbers
-        # --------------------------------------------------
-
         patient = {
             feature: float(data[feature])
             for feature in required_features
         }
 
-        # --------------------------------------------------
         # TEMPORARY RESPONSE
-        # --------------------------------------------------
         # We will connect this to the actual Quantara
         # prediction pipeline in the next step.
-
         return jsonify({
             "status": "success",
             "message": "Patient data received",
@@ -99,11 +79,7 @@ def predict():
             "message": str(e)
         }), 500
 
-
-# --------------------------------------------------
 # RUN SERVER
-# --------------------------------------------------
-
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",
