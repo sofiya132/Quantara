@@ -8,21 +8,13 @@ from sklearn.ensemble import RandomForestClassifier
 
 from .benchmark import benchmark_models
 
-
-# -----------------------------
 # Load test dataset
-# -----------------------------
-
 data = load_breast_cancer()
 
 X = data.data
 y = data.target
 
-
-# -----------------------------
 # Train/Test Split
-# -----------------------------
-
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -31,11 +23,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-
-# -----------------------------
 # Define models
-# -----------------------------
-
 models = {
 
     "Logistic Regression":
@@ -61,11 +49,7 @@ models = {
         )
 }
 
-
-# -----------------------------
 # Run Benchmark
-# -----------------------------
-
 results = benchmark_models(
     models=models,
     X_train=X_train,
@@ -74,11 +58,7 @@ results = benchmark_models(
     y_test=y_test
 )
 
-
-# -----------------------------
 # Display Results
-# -----------------------------
-
 print("\n")
 print("=" * 80)
 print("BENCHMARK RESULTS")
@@ -90,11 +70,7 @@ print(
     )
 )
 
-
-# -----------------------------
 # Save Results
-# -----------------------------
-
 results.to_csv(
     "results/test_benchmark_results.csv",
     index=False
