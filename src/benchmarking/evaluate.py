@@ -19,7 +19,6 @@ def evaluate_model(
 ):
     """
     Common evaluation framework for HCV classification models.
-
     Supports binary and multiclass classification.
 
     Parameters:
@@ -32,11 +31,7 @@ def evaluate_model(
     Returns:
         Dictionary containing evaluation metrics.
     """
-
-    # -----------------------------
     # Basic classification metrics
-    # -----------------------------
-
     accuracy = accuracy_score(y_true, y_pred)
 
     balanced_accuracy = balanced_accuracy_score(
@@ -65,17 +60,11 @@ def evaluate_model(
         zero_division=0
     )
 
-    # -----------------------------
     # Confusion Matrix
-    # -----------------------------
-
     cm = confusion_matrix(y_true, y_pred)
 
-    # -----------------------------
     # Sensitivity & Specificity
     # One-vs-Rest for each class
-    # -----------------------------
-
     sensitivity_values = []
     specificity_values = []
 
@@ -109,10 +98,7 @@ def evaluate_model(
 
     specificity = sum(specificity_values) / len(specificity_values)
 
-    # -----------------------------
     # ROC-AUC
-    # -----------------------------
-
     roc_auc = None
 
     if y_score is not None:
@@ -147,10 +133,7 @@ def evaluate_model(
         except (ValueError, TypeError):
             roc_auc = None
 
-    # -----------------------------
     # Final results
-    # -----------------------------
-
     return {
     "Model": model_name if model_name else type(model).__name__,
     "Accuracy": accuracy,
