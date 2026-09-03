@@ -51,35 +51,23 @@ def benchmark_model(
 
     print(f"\nTraining {model_name}...")
 
-    # -----------------------------
     # Training time
-    # -----------------------------
-
     start_time = time.perf_counter()
 
     model.fit(X_train, y_train)
 
     training_time = time.perf_counter() - start_time
 
-    # -----------------------------
     # Predictions
-    # -----------------------------
-
     y_pred = model.predict(X_test)
 
-    # -----------------------------
     # Prediction scores
-    # -----------------------------
-
     y_score = get_prediction_scores(
         model,
         X_test
     )
-
-    # -----------------------------
+    
     # Evaluate model
-    # -----------------------------
-
     results = evaluate_model(
         model=model,
         y_true=y_test,
@@ -121,11 +109,8 @@ def benchmark_models(
     """
 
     all_results = []
-
-    # -----------------------------
+    
     # Run each model
-    # -----------------------------
-
     for model_name, model in models.items():
 
         try:
@@ -146,10 +131,7 @@ def benchmark_models(
             print(f"\nERROR in {model_name}:")
             print(e)
 
-    # -----------------------------
     # Create DataFrame
-    # -----------------------------
-
     results_df = pd.DataFrame(all_results)
 
     return results_df
