@@ -34,11 +34,7 @@ from quantum_circuit import (
     N_LAYERS,
 )
 
-
-# ==================================================
 # 1. Prediction function
-# ==================================================
-
 def predict_probability(features, weights):
 
     expectation = quantum_circuit(
@@ -51,11 +47,7 @@ def predict_probability(features, weights):
 
     return probability
 
-
-# ==================================================
 # 2. Class weights
-# ==================================================
-
 class_0_count = np.sum(y_train == 0)
 class_1_count = np.sum(y_train == 1)
 
@@ -68,11 +60,7 @@ print("Class weights:")
 print("Class 0:", float(weight_0))
 print("Class 1:", float(weight_1))
 
-
-# ==================================================
 # 3. Weighted binary cross entropy
-# ==================================================
-
 def weighted_binary_cross_entropy(
     predictions,
     targets
@@ -100,12 +88,8 @@ def weighted_binary_cross_entropy(
     )
 
     return np.mean(loss)
-
-
-# ==================================================
+    
 # 4. Get probabilities
-# ==================================================
-
 def get_probabilities(
     X,
     weights
@@ -121,11 +105,7 @@ def get_probabilities(
 
     return probabilities
 
-
-# ==================================================
 # 5. Training loss
-# ==================================================
-
 def training_cost(weights):
 
     probabilities = get_probabilities(
@@ -138,11 +118,7 @@ def training_cost(weights):
         y_train
     )
 
-
-# ==================================================
 # 6. Validation loss
-# ==================================================
-
 def validation_cost(weights):
 
     probabilities = get_probabilities(
@@ -155,11 +131,7 @@ def validation_cost(weights):
         y_val
     )
 
-
-# ==================================================
 # 7. Find best threshold using VALIDATION only
-# ==================================================
-
 def find_best_threshold(
     probabilities,
     targets
@@ -193,19 +165,12 @@ def find_best_threshold(
 
     return best_threshold, best_f1
 
-
-# ==================================================
 # 8. Main training
-# ==================================================
-
 if __name__ == "__main__":
 
     np.random.seed(42)
 
-    # ------------------------------------------------
     # Initialize quantum weights
-    # ------------------------------------------------
-
     weights = np.array(
         0.01 * np.random.randn(
             N_LAYERS,
@@ -218,20 +183,14 @@ if __name__ == "__main__":
     print("\nWeight shape:")
     print(weights.shape)
 
-    # ------------------------------------------------
     # Optimizer
-    # ------------------------------------------------
-
     optimizer = qml.AdamOptimizer(
         stepsize=0.05
     )
 
     epochs = 30
 
-    # ------------------------------------------------
     # Track best model
-    # ------------------------------------------------
-
     best_val_f1 = -1
     best_val_loss = float("inf")
     best_threshold = 0.5
@@ -256,11 +215,8 @@ if __name__ == "__main__":
     )
 
     print("\n----------------------------------------")
-
-    # ==================================================
+    
     # Training loop
-    # ==================================================
-
     for epoch in range(epochs):
 
         weights, train_loss = (
@@ -270,10 +226,7 @@ if __name__ == "__main__":
             )
         )
 
-        # ----------------------------------------------
         # Validation
-        # ----------------------------------------------
-
         val_probabilities = get_probabilities(
             X_val_4,
             weights
@@ -302,10 +255,7 @@ if __name__ == "__main__":
             f"{threshold:.2f}"
         )
 
-        # ----------------------------------------------
         # Save best model
-        # ----------------------------------------------
-
         if val_f1 > best_val_f1:
 
             best_val_f1 = val_f1
@@ -342,11 +292,7 @@ if __name__ == "__main__":
         best_threshold
     )
 
-
-    # ==================================================
     # 9. Save model
-    # ==================================================
-
     MODEL_DIR = (
         Path(__file__).resolve().parent
         / "saved"
@@ -392,11 +338,7 @@ if __name__ == "__main__":
         MODEL_DIR / "vqc_config.json"
     )
 
-
-    # ==================================================
     # 10. FINAL TEST EVALUATION
-    # ==================================================
-
     print("\n========================================")
     print("FINAL TEST EVALUATION")
     print("========================================")
@@ -416,11 +358,7 @@ if __name__ == "__main__":
         test_probabilities >= best_threshold
     ).astype(int)
 
-
-    # --------------------------------------------------
     # Metrics
-    # --------------------------------------------------
-
     accuracy = accuracy_score(
         y_test,
         test_predictions
@@ -449,11 +387,7 @@ if __name__ == "__main__":
         test_probabilities
     )
 
-
-    # --------------------------------------------------
     # Confusion matrix
-    # --------------------------------------------------
-
     cm = confusion_matrix(
         y_test,
         test_predictions,
@@ -462,11 +396,7 @@ if __name__ == "__main__":
 
     tn, fp, fn, tp = cm.ravel()
 
-
-    # --------------------------------------------------
     # Sensitivity and specificity
-    # --------------------------------------------------
-
     sensitivity = (
         tp /
         (tp + fn)
@@ -480,13 +410,9 @@ if __name__ == "__main__":
         if (tn + fp) > 0
         else 0
     )
-
-
-    # ==================================================
+    
     # Print results
-    # ==================================================
-
-    print(
+     print(
         f"\nAccuracy: "
         f"{accuracy * 100:.2f}%"
     )
