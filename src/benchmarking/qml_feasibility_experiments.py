@@ -25,11 +25,7 @@ from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
-
-# ============================================================
 # PATHS
-# ============================================================
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
@@ -37,11 +33,7 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 
 RESULTS_DIR.mkdir(exist_ok=True)
 
-
-# ============================================================
 # CONFIGURATION
-# ============================================================
-
 FEATURE_ORDER = [
     "Age",
     "ALB",
@@ -65,11 +57,7 @@ N_SAMPLES = 20
 ANGLE_MIN = -np.pi
 ANGLE_MAX = np.pi
 
-
-# ============================================================
 # LOAD DATA
-# ============================================================
-
 print("=" * 70)
 print("QML FEASIBILITY EXPERIMENTS")
 print("=" * 70)
@@ -92,11 +80,7 @@ y_train_full = pd.read_csv(
 X_train_full = X_train_full[FEATURE_ORDER]
 X_test = X_test[FEATURE_ORDER]
 
-
-# ============================================================
 # TRAIN / VALIDATION SPLIT
-# ============================================================
-
 X_train, X_val, y_train, y_val = train_test_split(
     X_train_full,
     y_train_full,
@@ -105,11 +89,7 @@ X_train, X_val, y_train, y_val = train_test_split(
     stratify=y_train_full
 )
 
-
-# ============================================================
 # PCA
-# ============================================================
-
 max_features = max(FEATURE_COUNTS)
 
 pca = PCA(
@@ -120,11 +100,7 @@ X_train_pca = pca.fit_transform(X_train)
 
 print("\nMaximum PCA components:", max_features)
 
-
-# ============================================================
 # SCALE TO QUANTUM ANGLES
-# ============================================================
-
 scaler = MinMaxScaler(
     feature_range=(-np.pi, np.pi)
 )
@@ -133,20 +109,12 @@ X_train_scaled = scaler.fit_transform(
     X_train_pca
 )
 
-
-# ============================================================
 # SAMPLE DATA
-# ============================================================
-
 X_samples = X_train_scaled[:N_SAMPLES]
 
 print("Samples used:", len(X_samples))
 
-
-# ============================================================
 # GATE COUNT
-# ============================================================
-
 def calculate_gate_counts(
     n_qubits,
     n_layers
@@ -174,11 +142,7 @@ def calculate_gate_counts(
         total_gates
     )
 
-
-# ============================================================
 # CIRCUIT BUILDER
-# ============================================================
-
 def create_circuit(
     n_qubits,
     n_layers,
@@ -202,10 +166,7 @@ def create_circuit(
     @qml.qnode(dev)
     def circuit(features):
 
-        # ----------------------------------------
         # Feature encoding
-        # ----------------------------------------
-
         for i in range(n_qubits):
 
             qml.RY(
@@ -213,10 +174,7 @@ def create_circuit(
                 wires=i
             )
 
-        # ----------------------------------------
         # Variational layers
-        # ----------------------------------------
-
         for layer in range(n_layers):
 
             for i in range(n_qubits):
@@ -230,11 +188,8 @@ def create_circuit(
                     0.05 * (layer + 1),
                     wires=i
                 )
-
-            # ------------------------------------
+                
             # Entanglement
-            # ------------------------------------
-
             for i in range(
                 n_qubits - 1
             ):
@@ -245,11 +200,8 @@ def create_circuit(
                         i + 1
                     ]
                 )
-
-            # ------------------------------------
+                
             # Optional noise
-            # ------------------------------------
-
             if noisy:
 
                 for i in range(
@@ -267,12 +219,7 @@ def create_circuit(
 
     return circuit
 
-
-# ============================================================
-# EXPERIMENT 1
 # FEATURE / QUBIT COUNT
-# ============================================================
-
 print("\n")
 print("=" * 70)
 print("EXPERIMENT 1: FEATURE / QUBIT COUNT")
@@ -362,12 +309,7 @@ feature_df.to_csv(
     index=False
 )
 
-
-# ============================================================
-# EXPERIMENT 2
 # CIRCUIT DEPTH
-# ============================================================
-
 print("\n")
 print("=" * 70)
 print("EXPERIMENT 2: CIRCUIT DEPTH")
@@ -457,12 +399,7 @@ depth_df.to_csv(
     index=False
 )
 
-
-# ============================================================
-# EXPERIMENT 3
 # NOISE SENSITIVITY
-# ============================================================
-
 print("\n")
 print("=" * 70)
 print("EXPERIMENT 3: NOISE SENSITIVITY")
@@ -598,11 +535,6 @@ noise_df.to_csv(
     noise_path,
     index=False
 )
-
-
-# ============================================================
-# SUMMARY
-# ============================================================
 
 print("\n")
 print("=" * 70)
