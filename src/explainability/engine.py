@@ -3,13 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
-
-# ============================================================
-# QUANTARA - MEMBER 4
 # UNIFIED EXPLAINABILITY + ADAPTIVE INTELLIGENCE
-# ============================================================
-
-
 CURRENT_DIR = Path(__file__).resolve().parent
 
 PROJECT_ROOT = CURRENT_DIR.parents[1]
@@ -19,11 +13,6 @@ if str(PROJECT_ROOT) not in sys.path:
         0,
         str(PROJECT_ROOT)
     )
-
-
-# ============================================================
-# IMPORT MEMBER 4 MODULES
-# ============================================================
 
 from src.explainability.explainability import (
     load_data,
@@ -38,11 +27,7 @@ from src.explainability.model_router import (
     generate_model_reason
 )
 
-
-# ============================================================
 # FEATURE ORDER
-# ============================================================
-
 FEATURE_ORDER = [
 
     "Age",
@@ -60,11 +45,7 @@ FEATURE_ORDER = [
 
 ]
 
-
-# ============================================================
 # CREATE PATIENT
-# ============================================================
-
 def create_sample_patient():
 
     patient = pd.DataFrame([{
@@ -99,11 +80,7 @@ def create_sample_patient():
         FEATURE_ORDER
     ]
 
-
-# ============================================================
 # GET MODEL PROBABILITIES
-# ============================================================
-
 def get_model_probabilities(
     models,
     patient
@@ -125,11 +102,7 @@ def get_model_probabilities(
 
     return probabilities
 
-
-# ============================================================
 # ANALYZE PATIENT
-# ============================================================
-
 def analyze_patient(
     patient
 ):
@@ -145,11 +118,8 @@ def analyze_patient(
     print(
         "=" * 70
     )
-
-    # --------------------------------------------------------
+    
     # TRAIN CLASSICAL MODELS
-    # --------------------------------------------------------
-
     print(
         "\n===== TRAINING CLASSICAL MODELS ====="
     )
@@ -160,11 +130,8 @@ def analyze_patient(
         X_train,
         y_train
     )
-
-    # --------------------------------------------------------
+    
     # GET PROBABILITIES
-    # --------------------------------------------------------
-
     print(
         "\n===== MODEL PREDICTIONS ====="
     )
@@ -184,11 +151,8 @@ def analyze_patient(
             f"{model_name:22s}: "
             f"{probability:.2%}"
         )
-
-    # --------------------------------------------------------
+        
     # ADAPTIVE ROUTING
-    # --------------------------------------------------------
-
     print(
         "\n===== ADAPTIVE MODEL ROUTING ====="
     )
@@ -200,11 +164,7 @@ def analyze_patient(
     print_router_result(
         routing_result
     )
-
-    # --------------------------------------------------------
-    # SELECTED MODEL
-    # --------------------------------------------------------
-
+    
     selected_model_name = (
         routing_result[
             "selected_model"
@@ -215,10 +175,7 @@ def analyze_patient(
         selected_model_name
     ]
 
-    # --------------------------------------------------------
     # EXPLAIN SELECTED MODEL
-    # --------------------------------------------------------
-
     explanation = explain_prediction(
 
         selected_model,
@@ -228,21 +185,14 @@ def analyze_patient(
         patient
 
     )
-
-    # --------------------------------------------------------
+    
     # WHY THIS PREDICTION
-    # --------------------------------------------------------
-
     prediction_reason = (
         generate_prediction_reason(
             explanation
         )
     )
-
-    # --------------------------------------------------------
-    # FINAL REPORT
-    # --------------------------------------------------------
-
+    
     report = {
 
         "selected_model":
@@ -294,11 +244,6 @@ def analyze_patient(
     }
 
     return report
-
-
-# ============================================================
-# PRINT FINAL REPORT
-# ============================================================
 
 def print_final_report(
     report
@@ -363,11 +308,7 @@ def print_final_report(
             "why_prediction"
         ]
     )
-
-    # --------------------------------------------------------
-    # TOP FEATURES
-    # --------------------------------------------------------
-
+    
     print(
         "\n===== TOP INFLUENCING FEATURES ====="
     )
@@ -385,10 +326,6 @@ def print_final_report(
             f"{item['patient_contribution']:.2%}"
 
         )
-
-    # --------------------------------------------------------
-    # WHY MODEL
-    # --------------------------------------------------------
 
     print(
         "\n===== WHY THIS MODEL? ====="
@@ -412,11 +349,7 @@ def print_final_report(
         "=" * 70
     )
 
-
-# ============================================================
 # MAIN
-# ============================================================
-
 if __name__ == "__main__":
 
     patient = (
