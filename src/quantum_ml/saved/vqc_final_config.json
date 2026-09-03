@@ -1,0 +1,21 @@
+{
+    "model": "Final 4-Qubit VQC",
+    "n_qubits": 4,
+    "n_layers": 5,
+    "epochs": 50,
+    "learning_rate": 0.02,
+    "pca_components": 4,
+    "variance_retained": 0.5981118315709583,
+    "dual_angle_encoding": true,
+    "ring_entanglement": true,
+    "multi_qubit_readout": true,
+    "training_samples": 492,
+    "test_samples": 123,
+    "threshold": 0.5,
+    "test_accuracy": 0.8943089430894309,
+    "test_precision": 0.5555555555555556,
+    "test_sensitivity": 0.6666666666666666,
+    "test_specificity": 0.9259259259259259,
+    "test_f1": 0.6060606060606061,
+    "test_roc_auc": 0.9265432098765433
+}
