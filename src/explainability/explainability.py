@@ -8,11 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 
-
-# ============================================================
 # QUANTARA - MEMBER 4 EXPLAINABILITY
-# ============================================================
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
 FEATURE_FILE = Path(__file__).resolve().parent / "feature_importance.json"
@@ -33,21 +29,13 @@ FEATURE_ORDER = [
     "Sex_m"
 ]
 
-
-# ============================================================
 # FEATURE INFORMATION
-# ============================================================
-
 def load_feature_information():
 
     with open(FEATURE_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
-
-# ============================================================
 # LOAD DATA
-# ============================================================
-
 def load_data():
 
     X_train = pd.read_csv(DATA_DIR / "X_train.csv")
@@ -58,12 +46,8 @@ def load_data():
     X_train = X_train[FEATURE_ORDER]
 
     return X_train, y_train
-
-
-# ============================================================
+    
 # CREATE CLASSICAL MODELS
-# ============================================================
-
 def create_models():
 
     models = {
@@ -100,12 +84,8 @@ def create_models():
     }
 
     return models
-
-
-# ============================================================
+    
 # TRAIN MODELS
-# ============================================================
-
 def train_models(X_train, y_train):
 
     models = create_models()
@@ -116,12 +96,8 @@ def train_models(X_train, y_train):
         model.fit(X_train, y_train)
 
     return models
-
-
-# ============================================================
+    
 # PERMUTATION FEATURE IMPORTANCE
-# ============================================================
-
 def calculate_feature_importance(model, X, y):
 
     result = permutation_importance(
@@ -144,12 +120,8 @@ def calculate_feature_importance(model, X, y):
         importance = importance / total
 
     return importance
-
-
-# ============================================================
+    
 # PATIENT-SPECIFIC CONTRIBUTION
-# ============================================================
-
 def calculate_patient_contribution(
     model,
     patient,
@@ -180,11 +152,7 @@ def calculate_patient_contribution(
 
     return contribution
 
-
-# ============================================================
 # RISK LEVEL
-# ============================================================
-
 def get_risk_level(probability):
 
     if probability >= 0.70:
@@ -196,20 +164,12 @@ def get_risk_level(probability):
     else:
         return "LOW"
 
-
-# ============================================================
 # CONFIDENCE
-# ============================================================
-
 def calculate_confidence(probability):
 
     return abs(probability - 0.5) * 2
 
-
-# ============================================================
 # EXPLAIN PREDICTION
-# ============================================================
-
 def explain_prediction(
     model,
     model_name,
@@ -303,11 +263,7 @@ def explain_prediction(
             explanations
     }
 
-
-# ============================================================
 # WHY THIS PREDICTION?
-# ============================================================
-
 def generate_prediction_reason(explanation):
 
     prediction = explanation["prediction"]
@@ -332,12 +288,8 @@ def generate_prediction_reason(explanation):
         )
 
     return reason
-
-
-# ============================================================
+    
 # TEST
-# ============================================================
-
 if __name__ == "__main__":
 
     print("=" * 70)
