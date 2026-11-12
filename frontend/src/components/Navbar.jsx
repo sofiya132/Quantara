@@ -91,7 +91,7 @@ export default function Navbar({ activeTab, setActiveTab, healthData }) {
           <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-purple-950/70 border border-indigo-800/60 text-xs shadow-inner">
             <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-emerald-400 animate-ping' : 'bg-rose-500'}`} />
             <span className="text-indigo-200 font-mono text-[11px]">
-              {isOnline ? 'Quantum Sim Online' : 'Backend Offline'}
+              {!healthData ? 'Connecting…' : isOnline ? 'Quantum Sim Online' : 'Backend Offline'}
             </span>
           </div>
         </div>

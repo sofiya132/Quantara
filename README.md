@@ -117,7 +117,25 @@ npm install
 npm run dev
 ```
 
-Vite will print the local frontend address.
+Vite will print the local frontend address. API requests use Vite's proxy to the
+local Python server on port 8000.
+
+### Frontend deployment on Netlify
+
+The root `netlify.toml` sets `frontend` as the base directory, runs
+`npm run build`, and publishes `frontend/dist`. It also routes frontend URLs
+to `index.html` so direct navigation works.
+
+This deploys the React frontend. The Python/FastAPI machine-learning service is
+not included in the static frontend deployment. Without a connected API, the
+frontend shows an offline notice; built-in reference charts remain available,
+but predictions, explainability, dataset samples, and history need the backend.
+
+To connect a deployed API, set `VITE_API_BASE_URL` to its HTTPS origin in the
+Netlify environment and redeploy. This is a public build-time setting, so it
+must not contain credentials. The API must allow requests from the frontend's
+origin through CORS. If an API is served at the same origin, leave it unset
+and configure routing for `/api/*` and `/health` before the frontend fallback.
 
 ---
 

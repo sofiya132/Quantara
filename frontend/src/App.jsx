@@ -93,6 +93,15 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-8">
+        {healthData?.status === 'offline' && (
+          <div role="status" className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-200">
+            <p className="font-semibold">Backend unavailable</p>
+            <p className="mt-1 text-amber-100/80">
+              You can browse the frontend and its built-in reference charts. Patient predictions,
+              explainability, dataset samples, and saved history require a connected backend.
+            </p>
+          </div>
+        )}
         
         {activeTab === 'dashboard' && (
           <DashboardView 
