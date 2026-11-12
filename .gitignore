@@ -29,3 +29,7 @@ Thumbs.db
 
 # Temporary files
 *.tmp
+
+# Frontend dependencies and local environment overrides
+node_modules/
+.env.*
